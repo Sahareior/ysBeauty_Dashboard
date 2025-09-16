@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 const ForgotPass = () => {
     const navigate = useNavigate()
     return (
-        <div>
+                <div className="min-h-screen flex items-center justify-center  px-4">
+
                 <AuthCard title="Forgot Password">
       <p className="mb-4">Please enter your email address to reset your password</p>
 <div>

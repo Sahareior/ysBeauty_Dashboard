@@ -10,6 +10,7 @@ const EditSection = ({ data, type,setIsClicked }) => {
   const [lastChange, setLastChange] = useState();
   const [readOnly, setReadOnly] = useState(false);
   const [previewHTML, setPreviewHTML] = useState("");
+  
 
   useEffect(()=>{
     setIsClicked(true);
@@ -18,17 +19,32 @@ const EditSection = ({ data, type,setIsClicked }) => {
   const quillRef = useRef(null);
   const text = data || "This is some static content. You can edit it here.";
 
+
+    const handleSave = () => {
+    // Here you can also send API request to save changes
+    Swal.fire({
+      title: 'Saved!',
+      text: 'Your profile has been updated successfully.',
+      icon: 'success',
+      confirmButtonColor: '#009844',
+      confirmButtonText: 'OK'
+    });
+
+  };
+
   const handleLogContent = () => {
+
+    console.log("Content updated");
     if (quillRef.current) {
       const html = quillRef.current.root.innerHTML;
       console.log("Updated content:", html);
-      Swal.fire("Success!", "Content updated successfully", "success");
       setPreviewHTML(html);
     }
+    Swal.fire("Success!", "Content updated successfully", "success");
   };
 
   return (
-    <div className=" flex flex-col gap-4">
+    <div className=" flex bg-white border border-[#F1BE20] flex-col gap-4">
       <Editor
         ref={quillRef}
         readOnly={readOnly}
@@ -43,14 +59,14 @@ const EditSection = ({ data, type,setIsClicked }) => {
           style={{
             background: 'linear-gradient(90deg, #D9AB1D 0%, #F1BE20 100%)',
           }}
-            onClick={() => handleLogContent}
+             onClick={handleLogContent} 
             className="  px-14 py-2  text-white rounded-lg "
           >
             Update
           </button>
       </div>
 
-      {previewHTML && (
+      {/* {previewHTML && (
         <div className="preview-container mt-10">
           <h3 className="preview-title">📄 Preview:</h3>
           <div
@@ -58,7 +74,7 @@ const EditSection = ({ data, type,setIsClicked }) => {
             dangerouslySetInnerHTML={{ __html: previewHTML }}
           />
         </div>
-      )}
+      )} */}
     </div>
   );
 };

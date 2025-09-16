@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
-import { Layout, Menu, theme } from 'antd';
+import React from 'react';
+import { Button, Layout, Menu, theme } from 'antd';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { AiOutlineDashboard, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineSetting } from 'react-icons/ai';
+import { 
+  AiOutlineDashboard, 
+  AiOutlineCalendar, 
+  AiOutlineClockCircle, 
+  AiOutlineSetting, 
+  AiOutlineLogout 
+} from 'react-icons/ai';
+import Swal from 'sweetalert2';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 // Menu item helper
 function getItem(label, key, icon, children) {
@@ -11,56 +18,85 @@ function getItem(label, key, icon, children) {
 }
 
 const YsDashboard = () => {
-  const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
+  const handleLogout = () => {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You will be logged out of your account.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, logout!',
+    cancelButtonText: 'Cancel'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      navigate('/'); // redirect after logout
+    }
+  });
+};
+
+
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { borderRadiusLG },
   } = theme.useToken();
 
   // Define menu items
   const items = [
-    getItem('Overview', '/', <AiOutlineDashboard size={20} />),
-    getItem('Event List', '/eventlist', <AiOutlineCalendar size={20} />),
-    getItem('Recent Activities', '/recent-activities', <AiOutlineClockCircle size={20} />),
-    getItem('Settings', '/settings', <AiOutlineSetting size={20} />),
+    getItem('Overview', '/dashboard/overview', <AiOutlineDashboard size={20} />),
+    getItem('Event List', '/dashboard/eventlist', <AiOutlineCalendar size={20} />),
+    getItem('Recent Activities', '/dashboard/recent-activities', <AiOutlineClockCircle size={20} />),
+    getItem('Settings', '/dashboard/settings', <AiOutlineSetting size={20} />),
   ];
 
   // Set active menu item based on current path
-  const selectedKey = location.pathname === '/' ? '/' : location.pathname;
+  const selectedKey = location.pathname;
 
   return (
     <Layout style={{ minHeight: '100vh', background: 'white' }}>
- <Sider
-  className="h-full"
-  collapsible
-  collapsed={collapsed}
-  onCollapse={(value) => setCollapsed(value)}
-  style={{
-    background: "linear-gradient(to bottom, rgba(255, 253, 211, 0.61) 0%, #FFFFFE 100%)",
-  }}
->
-  <div className="demo-logo-vertical" />
-  <img className="mx-auto mt-8" src="/images/logo.png" alt="" />
+      <Sider
+        className="h-full"
+         width={250} // increase this value as needed
+        style={{
+          background: "linear-gradient(to bottom, rgba(255, 253, 211, 0.61) 0%, #FFFFFE 100%)",
+        }}
+      >
+        <img className="mx-auto mt-8" src="/images/logo.png" alt="Logo" />
+        
+        <div className='flex flex-col justify-between h-[80vh]'>
+          {/* Menu */}
+          <Menu
+            selectedKeys={[selectedKey]}
+            mode="inline"
+            items={items}
+            onClick={(e) => navigate(e.key)}
+            className="mt-12 popreg text-[18px] space-y-5"
+            style={{
+              background: "transparent", // let Sider’s gradient show through
+            }}
+          />
 
-  <Menu
-    selectedKeys={[selectedKey]}
-    mode="inline"
-    items={items}
-    onClick={(e) => navigate(e.key)}
-    className="mt-12 space-y-5"
-    style={{
-      background: "transparent", // let Sider’s gradient show through
-    }}
-  />
-</Sider>
+          {/* Logout button */}
+<div className="p-4 mt-auto">
+  <Button
+    type="primary"
+    onClick={handleLogout}
+    className="w-full flex items-center justify-center gap-2 bg-[#FFFDBA] text-black"
+    icon={<AiOutlineLogout />}
+  >
+    Logout
+  </Button>
+</div>
+
+        </div>
+      </Sider>
 
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
-        <Content style={{ margin: '0 16px', background: '#F5F3ED' }}>
+        <Content style={{ background: '#F5F3ED' }}>
           <div
-            className="h-[80vh] overflow-auto"
+            className="h-[98vh] overflow-auto"
             style={{
               padding: 24,
               minHeight: 360,
@@ -71,7 +107,6 @@ const YsDashboard = () => {
             <Outlet />
           </div>
         </Content>
-
       </Layout>
     </Layout>
   );

@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 const ChangePass = () => {
     const navigate = useNavigate();
     return (
-       <AuthCard title="Change Password">
+<div className="min-h-screen flex items-center justify-center  px-4">
+         <AuthCard title="Change Password">
       <p className="mb-4">Your password must be 8–10 characters long.</p>
       <div className="space-y-4">
        <div>
@@ -38,6 +39,7 @@ const ChangePass = () => {
         Update password
       </button>
     </AuthCard>
+</div>
     );
 };
 

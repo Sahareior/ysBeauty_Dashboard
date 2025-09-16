@@ -1,3 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.ant-picker-calendar .ant-picker-cell-in-view.ant-picker-cell-selected:not(.ant-picker-cell-disabled) .ant-picker-cell-inner{
+    background-color: #fbbf24;
+    color: white;
+    
+}
+
+
+
+.poplight {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.popreg {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.popmed {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.popbold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.ant-menu-item{
+    padding: 30px;
+}
+
+.ant-menu-item:hover {
+  background-color: #FFFDBA !important;  /* Change active item background color */
+  color: rgb(16, 10, 10) !important;  /* Change text color on hover */
+}
+
+/* Optional: Change the active item (selected item) background color */
+.ant-menu-item-selected {
+  background-color: #FFFDBA !important;  /* Change active item background color */
+  color: rgb(0, 0, 0) !important;  /* Active item text color */
+  
+}

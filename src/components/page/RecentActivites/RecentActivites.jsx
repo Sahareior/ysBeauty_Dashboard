@@ -7,8 +7,8 @@ const RecentActivites = () => {
     return (
         <div>
         <Header heading="User activities" />
-      <div>
-        <EventTable />
+       <div className='mt-28'>
+        <EventTable activities={true} />
       </div>
         </div>
     );

@@ -7,8 +7,8 @@ const Header = ({heading,subHeading}) => {
                           <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
         {/* Title & Subtitle */}
         <div>
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">{heading}</h2>
-          <h3 className="text-lg md:text-xl font-semibold text-gray-700">{subHeading}</h3>
+          <h2 className="text-2xl popreg md:text-3xl font-bold text-gray-900">{heading}</h2>
+          <h3 className="text-[16px] popreg mt-3 font-semibold text-gray-700">{subHeading}</h3>
 
         </div>
 
@@ -23,7 +23,7 @@ const Header = ({heading,subHeading}) => {
         <div className="flex items-center gap-3">
           <Avatar
             size={40}
-            src="https://joeschmoe.io/api/v1/random"
+            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Avatar"
           />
           <div>

@@ -6,16 +6,14 @@ import { useNavigate } from 'react-router-dom';
 const Privacy = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [clicked,setIsClicked]=useState(false);
-
+    const navigate = useNavigate();
 
  
 
   const privacyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam labore deserunt tempore commodi veritatis omnis odit odio pariatur. Exercitationem aliquid autem dolor hic, expedita illo id, porro magni quam quaerat consequatur excepturi, recusandae ab tenetur fugiat fuga. Nesciunt enim quas illo tenetur ducimus iusto minima eveniet ipsam officia, odio porro iure tempore similique libero sunt! Harum architecto repellat officia est vero rem unde aspernatur, mollitia voluptatum? Nisi earum asperiores explicabo voluptas! Sed quod vero, distinctio tempore non perspiciatis a odit obcaecati debitis doloremque numquam asperiores quaerat molestias consequuntur assumenda. Quas recusandae dolorum nobis! Suscipit dolore error rerum soluta iure! Sint!";
 
   const handleBack = () => {
-    if(clicked){
-       setIsEditing(false);
-    }
+navigate(-1);
   }
   return (
     <div className="p-6">
@@ -25,14 +23,14 @@ const Privacy = () => {
       </div>
 
       <div  className="my-11">
-        <p>Privacy Policy Content</p>
+        <p className='text-[28px]'>Privacy Policy Content</p>
         <div className="w-full bg-black h-[0.2px]" />
       </div>
 
       {!isEditing ? (
 <div>
             <div className="relative w-full ">
-          <div className='bg-gray-50 p-4 rounded-lg min-h-[200px]'>
+          <div className=' p-4 rounded-lg min-h-[200px]'>
             <p className="whitespace-pre-line">{privacyText}</p>
           </div>
   

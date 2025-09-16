@@ -3,7 +3,7 @@ import AuthCard from './AuthCard';
 
 const ResetPass = () => {
     return (
-        <div>
+        <div className="min-h-screen flex items-center justify-center  px-4">
              <AuthCard title="Reset Password">
       <p className="mb-4">Your password must be 8–10 characters long.</p>
       <input

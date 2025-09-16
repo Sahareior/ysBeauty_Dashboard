@@ -19,6 +19,7 @@ import ResetPass from './components/page/settings/components/ChangePassword/Rese
 import ChangePassLayout from './components/page/settings/components/ChangePassword/ChangePassLayout.jsx';
 import Terms from './components/page/settings/components/TermsNConditions/Terms.jsx';
 import Privacy from './components/page/settings/components/TermsNConditions/Privacy.jsx';
+import Login from './components/page/auth/Login.jsx';
 
 
 
@@ -27,64 +28,50 @@ import Privacy from './components/page/settings/components/TermsNConditions/Priv
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Login />,   // 👈 Show login first
+  },
+  {
+    path: "/dashboard",
     element: <YsDashboard />,
     children: [
       {
-        path: "/",
+        path: "overview",
         element: <Overview />,
       },
       {
-        path: "/eventlist",
+        path: "eventlist",
         element: <EventList />,
       },
       {
-        path: "/recent-activities",
+        path: "recent-activities",
         element: <RecentActivites />,
       },
       {
-        path: "/settings",
+        path: "settings",
         element: <Settings />,
         children: [
           {
             path: "profile",
-            element: <Profile />
+            element: <Profile />,
           },
           {
             path: "change-password",
-            element:<ChangePassLayout />,
-            children:[
-              {
-                index:true,
-                element:<ChangePass />
-              },
-              {
-                path:'forgot-password',
-                element:<ForgotPass />
-              },
-             {
-                path:'verify-email',
-                element:<VerifyEmail />
-              },
-              {
-                path:'reset-password',
-                element:<ResetPass />
-              }
-            ]
+            element: <ChangePassLayout />,
+            children: [
+              { index: true, element: <ChangePass /> },
+              { path: "forgot-password", element: <ForgotPass /> },
+              { path: "verify-email", element: <VerifyEmail /> },
+              { path: "reset-password", element: <ResetPass /> },
+            ],
           },
-          {
-            path: "terms",
-            element: <Terms />
-          },
-          {
-            path: "privacy",
-            element: <Privacy />
-          }
-
-        ]
+          { path: "terms", element: <Terms /> },
+          { path: "privacy", element: <Privacy /> },
+        ],
       },
-    ]
+    ],
   },
 ]);
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

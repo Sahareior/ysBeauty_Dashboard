@@ -47,7 +47,7 @@ const CustomCalendar = () => {
           // ✅ highlight only one cell, don’t duplicate numbers
           const isSelected = date.isSame(dayjs("2021-09-19"), "day");
           return isSelected ? (
-            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-400 text-white font-bold">
+            <div className="w-8 h-8  items-center justify-center hidden rounded-full bg-yellow-400 text-white font-bold">
               {date.date()}
             </div>
           ) : null; // return null for other days

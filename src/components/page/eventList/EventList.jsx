@@ -4,10 +4,11 @@ import { Avatar } from 'antd';
 import Header from '../REUSEABLE/Header';
 
 const EventList = () => {
+  
     return (
         <div>
             <Header heading="Event List" />
-      <div>
+      <div className='mt-28'>
         <EventTable />
       </div>
         </div>
