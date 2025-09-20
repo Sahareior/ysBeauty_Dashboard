@@ -1,77 +1,84 @@
-import { Avatar } from 'antd';
 import React from 'react';
+import { Avatar } from 'antd';
+import Header from '../REUSEABLE/Header';
 import DashboardCard from './_components/DashboardCard';
 import EventTable from '../REUSEABLE/EventTable.JSX';
-import CustomCalendar from './_components/CustomCalender';
-import Header from '../REUSEABLE/Header';
+import { useGetDashboardStatsQuery, useGetopFiveQuery } from '../../../store/apis/apiSlice';
+
+const statsConfig = [
+  {
+    title: 'Active User',
+    key: 'total_active_users',
+    bg: '#E7FFF3',
+    icon: '/images/overview/img1.png',
+    vector: '/images/overview/Vector 5.png',
+    description: '5% increase',
+  },
+  {
+    title: 'New User',
+    key: 'new_users_monthly',
+    bg: '#D6FFD6',
+    icon: '/images/overview/Group (1).png',
+    vector: '/images/overview/Vector 9.png',
+    description: '5% Increased Monthly',
+  },
+  {
+    title: 'Events Created',
+    key: 'total_events',
+    bg: '#FFF6DC',
+    icon: '/images/overview/Group (2).png',
+    vector: '/images/overview/Vector 12.png',
+    description: '10% Event creation Rate',
+  },
+  {
+    title: 'Deactivated User',
+    key: 'deactivate_user',
+    bg: '#FFE5E5',
+    icon: '/images/overview/Group (4).png',
+    vector: '/images/overview/Vector 9.png',
+    description: '1% Increased Monthly',
+  },
+];
 
 const Overview = () => {
+  const { data } = useGetDashboardStatsQuery();
+  const {data:topFive} = useGetopFiveQuery()
+
   return (
     <div className="w-full">
       {/* Header */}
+      <Header heading="Dashboard" subHeading=" Welcome back! Here’s a quick overview of your account." />
 
-
-           <Header heading="Dashboard" subHeading=" Welcome back! Here’s a quick overview of your account." />
-
-      {/* Quick Stats / Cards Example */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-[#E7FFF3] flex flex-col justify-center p-4 rounded-xl shadow hover:shadow-lg transition">
-         <div className='flex justify-around'>
-       <div>
-            <h4 className="text-gray-500 popmed text-sm">Active User</h4>
-          <p className="text-2xl font-bold popbold text-gray-900 mt-2">1,245</p>
-          <p className='popreg mt-2'>5% increase</p>
-         </div>
-         <img src="/images/overview/img1.png" className='w-10 h-10' alt="" />
-       </div>
-       <img className='mt-2' src="/images/overview/Vector 5.png" alt="" />
-        </div>
- <div className="bg-[#D6FFD6] flex flex-col justify-center p-4 rounded-xl shadow hover:shadow-lg transition">
-         <div className='flex justify-around'>
-       <div>
-            <h4 className="text-gray-500 popmed text-sm">New User</h4>
-          <p className="text-2xl popbold font-bold text-gray-900 mt-2">1,045</p>
-          <p className='popreg mt-2'>5% Increased Monthly</p>
-         </div>
-         <img src="/images/overview/Group (1).png" className='w-8 h-8' alt="" />
-       </div>
-       <img className='mt-2' src="/images/overview/Vector 9.png" alt="" />
-        </div>
- <div className="bg-[#FFF6DC] flex flex-col justify-center p-4 rounded-xl shadow hover:shadow-lg transition">
-         <div className='flex justify-around'>
-       <div>
-            <h4 className="text-gray-500 popreg text-sm">Events Created</h4>
-          <p className="text-2xl font-bold popbold text-gray-900 mt-2">105</p>
-          <p className='popreg mt-2'>10% Event creation Rate</p>
-         </div>
-         <img src="/images/overview/Group (2).png" className='w-8 h-8' alt="" />
-       </div>
-       <img className='mt-2' src="/images/overview/Vector 12.png" alt="" />
-        </div>
-
-    <div className="bg-[#FFE5E5] flex flex-col justify-center p-4 rounded-xl shadow hover:shadow-lg transition">
-         <div className='flex justify-around'>
-       <div>
-            <h4 className="text-gray-500 text-sm popmed">Deactiveted User</h4>
-          <p className="text-2xl font-bold text-gray-900 mt-2 popbold">245</p>
-          <p className='popreg mt-2'>1% Increased Monthly</p>
-         </div>
-         <img src="/images/overview/Group (4).png" className='w-8 h-8' alt="" />
-       </div>
-       <img className='mt-2' src="/images/overview/Vector 9.png" alt="" />
-        </div>
+      {/* Quick Stats / Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+        {statsConfig.map((stat) => (
+          <div
+            key={stat.key}
+            className="flex flex-col justify-center p-4 rounded-xl shadow hover:shadow-lg transition"
+            style={{ backgroundColor: stat.bg }}
+          >
+            <div className="flex justify-around">
+              <div>
+                <h4 className="text-gray-500 popmed text-sm">{stat.title}</h4>
+                <p className="text-2xl font-bold popbold text-gray-900 mt-2">
+                  {data ? data[stat.key] : '-'}
+                </p>
+                <p className="popreg mt-2">{stat.description}</p>
+              </div>
+              <img src={stat.icon} className="w-8 h-8 sm:w-10 sm:h-10" alt={stat.title} />
+            </div>
+            <img className="mt-2" src={stat.vector} alt="" />
+          </div>
+        ))}
       </div>
+
+      {/* Other Components */}
       <DashboardCard />
-      <div>
-<div className="flex gap-6 mt-6 mb-4">
-  {/* Event Table */}
-  <div className="flex-[2] bg-white  rounded-xl ">
-    <EventTable />
-  </div>
 
-
-</div>
-
+      <div className="flex gap-6 mt-6 mb-4">
+        <div className="flex-[2] bg-white rounded-xl">
+          <EventTable eventData={topFive}  />
+        </div>
       </div>
     </div>
   );

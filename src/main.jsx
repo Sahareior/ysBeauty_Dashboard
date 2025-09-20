@@ -4,6 +4,7 @@ import './index.css'
 import App from './App.jsx'
 import {
   createBrowserRouter,
+  Navigate,
   RouterProvider,
 } from "react-router-dom";
 import YsDashboard from './components/YsDashboard.jsx';
@@ -21,6 +22,9 @@ import Terms from './components/page/settings/components/TermsNConditions/Terms.
 import Privacy from './components/page/settings/components/TermsNConditions/Privacy.jsx';
 import Login from './components/page/auth/Login.jsx';
 
+import { Provider } from 'react-redux'
+import { store } from './store/store.js';
+import PrivateRoute from './components/routes/PrivateRoute.jsx';
 
 
 
@@ -28,37 +32,38 @@ import Login from './components/page/auth/Login.jsx';
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login />,   // 👈 Show login first
+    element: <Login />,
   },
+{
+  path: "change-password",
+  element: <ChangePassLayout />,
+  children: [
+    { index: true, element: <Navigate to="forgot-password" replace /> }, // 👈 redirect
+    { path: "forgot-password", element: <ForgotPass /> },
+    { path: "verify-email", element: <VerifyEmail /> },
+    { path: "reset-password", element: <ResetPass /> },
+  ],
+},
   {
     path: "/dashboard",
-    element: <YsDashboard />,
+    element: (
+      <PrivateRoute>
+        <YsDashboard />
+      </PrivateRoute>
+    ),
     children: [
-      {
-        path: "overview",
-        element: <Overview />,
-      },
-      {
-        path: "eventlist",
-        element: <EventList />,
-      },
-      {
-        path: "recent-activities",
-        element: <RecentActivites />,
-      },
+      { path: "overview", element: <Overview /> },
+      { path: "eventlist", element: <EventList /> },
+      { path: "recent-activities", element: <RecentActivites /> },
       {
         path: "settings",
         element: <Settings />,
         children: [
-          {
-            path: "profile",
-            element: <Profile />,
-          },
+          { path: "profile", element: <Profile /> },
           {
             path: "change-password",
             element: <ChangePassLayout />,
             children: [
-              { index: true, element: <ChangePass /> },
               { path: "forgot-password", element: <ForgotPass /> },
               { path: "verify-email", element: <VerifyEmail /> },
               { path: "reset-password", element: <ResetPass /> },
@@ -73,8 +78,11 @@ const router = createBrowserRouter([
 ]);
 
 
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <Provider store={store}>
     <RouterProvider router={router} />
+    </Provider>
   </StrictMode>,
 )

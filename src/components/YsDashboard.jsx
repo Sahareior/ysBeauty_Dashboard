@@ -9,6 +9,8 @@ import {
   AiOutlineLogout 
 } from 'react-icons/ai';
 import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
+import { logout } from '../store/slices/authSlice';
 
 const { Content, Sider } = Layout;
 
@@ -20,6 +22,7 @@ function getItem(label, key, icon, children) {
 const YsDashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch()
 
   const handleLogout = () => {
   Swal.fire({
@@ -33,6 +36,7 @@ const YsDashboard = () => {
     cancelButtonText: 'Cancel'
   }).then((result) => {
     if (result.isConfirmed) {
+      dispatch(logout())
       navigate('/'); // redirect after logout
     }
   });

@@ -1,12 +1,12 @@
-import Quill from 'quill';
+import Quill from "quill";
 import React, {
   forwardRef,
   useEffect,
   useLayoutEffect,
   useRef,
-} from 'react';
-import 'quill/dist/quill.snow.css'; // ✅ Important for styling
-import './editor.css'
+} from "react";
+import "quill/dist/quill.snow.css"; // ✅ Styling
+import "./editor.css";
 
 const Editor = forwardRef(
   ({ readOnly, defaultValue, onTextChange, onSelectionChange }, ref) => {
@@ -23,23 +23,34 @@ const Editor = forwardRef(
     useEffect(() => {
       const container = containerRef.current;
       const editorContainer = container.appendChild(
-        container.ownerDocument.createElement('div'),
+        container.ownerDocument.createElement("div")
       );
       const quill = new Quill(editorContainer, {
-        theme: 'snow',
+        theme: "snow",
       });
 
-      // Safely assign ref
-      if (typeof ref === 'function') {
+      // ✅ Expose quill instance
+      if (typeof ref === "function") {
         ref(quill);
       } else if (ref) {
         ref.current = quill;
       }
 
+      // ✅ Handle both Delta and HTML
       if (defaultValueRef.current) {
-        quill.setContents(defaultValueRef.current);
+        if (typeof defaultValueRef.current === "string") {
+          // HTML string → insert into editor
+          quill.clipboard.dangerouslyPasteHTML(
+            0,
+            defaultValueRef.current
+          );
+        } else {
+          // Assume Delta object
+          quill.setContents(defaultValueRef.current);
+        }
       }
 
+      // Listeners
       quill.on(Quill.events.TEXT_CHANGE, (...args) => {
         onTextChangeRef.current?.(...args);
       });
@@ -49,12 +60,12 @@ const Editor = forwardRef(
       });
 
       return () => {
-        if (typeof ref === 'function') {
+        if (typeof ref === "function") {
           ref(null);
         } else if (ref) {
           ref.current = null;
         }
-        container.innerHTML = '';
+        container.innerHTML = "";
       };
     }, [ref]);
 
@@ -64,10 +75,10 @@ const Editor = forwardRef(
       }
     }, [readOnly, ref]);
 
-    return <div ref={containerRef} />;
-  },
+    return <div ref={containerRef} style={{ height: "40vh" }} />;
+  }
 );
 
-Editor.displayName = 'Editor';
+Editor.displayName = "Editor";
 
 export default Editor;

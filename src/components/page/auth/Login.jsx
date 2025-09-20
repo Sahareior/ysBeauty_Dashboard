@@ -1,16 +1,32 @@
+// Login.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSignInMutation } from "../../../store/apis/apiSlice";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../../store/slices/authSlice";
+// import { setCredentials } from "../../../store/slices/authSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [signIn, { isLoading }] = useSignInMutation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleLogin = () => {
-    if (email === "admin@gmail.com") {
-      navigate("/dashboard/overview"); // 👈 redirect to dashboard
-    } else {
-      alert("Invalid email or password!");
+  const handleLogin = async () => {
+    if(email && password){
+      try {
+        const res = await signIn({email,password}).unwrap();
+        console.log(res);
+        
+        // Dispatch action to store credentials
+        dispatch(setCredentials(res));
+        
+        navigate("/dashboard/overview"); 
+      } catch (err) {
+        console.error('Failed to login:', err);
+        // Handle error (show message to user)
+      }
     }
   };
 
@@ -54,7 +70,7 @@ const Login = () => {
             <input type="checkbox" className="mr-2 popreg accent-yellow-500" />
             Remember Password
           </label>
-          <button className="text-sm popreg text-red-500 hover:underline">
+          <button onClick={()=> navigate('change-password')} className="text-sm popreg text-red-500 hover:underline">
             Forgot Password?
           </button>
         </div>
@@ -63,13 +79,14 @@ const Login = () => {
         <div className="space-y-5">
           <button
             onClick={handleLogin}
-            className="w-full bg-yellow-500 text-white font-semibold py-2 rounded-full hover:bg-yellow-600 transition"
+            disabled={isLoading}
+            className="w-full bg-yellow-500 text-white font-semibold py-2 rounded-full hover:bg-yellow-600 transition disabled:opacity-50"
           >
-            Log In
+            {isLoading ? 'Logging in...' : 'Log In'}
           </button>
-          <button className="w-full bg-yellow-400 text-white font-semibold py-2 rounded-full hover:bg-yellow-500 transition">
+          {/* <button className="w-full bg-yellow-400 text-white font-semibold py-2 rounded-full hover:bg-yellow-500 transition">
             Sign Up
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
