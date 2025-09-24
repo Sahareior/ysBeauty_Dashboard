@@ -149,6 +149,17 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
+    
+    eventDelete: build.mutation({
+      query:(id) => ({
+        url: `/dashboard/admin/events/delete/${id}/`,
+        method: 'DELETE'
+      })
+    }),
+
+    getDashboardPersentage: build.query({
+      query: () => 'dashboard/admin/user_activity/percentage/'
+    }),
 
     signIn: build.mutation({
       query: (data) => ({
@@ -162,7 +173,9 @@ export const apiSlice = createApi({
 
 export const {
   useGetDashboardStatsQuery,
+  useEventDeleteMutation,
   useUpdateTermsMutation,
+  useGetDashboardPersentageQuery,
   useGetTermsQuery,
   useResetChangePassMutation,
   useActiveEventsMutation,

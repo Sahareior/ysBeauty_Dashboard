@@ -3,7 +3,15 @@ import { Avatar } from 'antd';
 import Header from '../REUSEABLE/Header';
 import DashboardCard from './_components/DashboardCard';
 import EventTable from '../REUSEABLE/EventTable.JSX';
-import { useGetDashboardStatsQuery, useGetopFiveQuery } from '../../../store/apis/apiSlice';
+import { useGetDashboardPersentageQuery, useGetDashboardStatsQuery, useGetopFiveQuery } from '../../../store/apis/apiSlice';
+
+
+
+const Overview = () => {
+  const { data } = useGetDashboardStatsQuery();
+  const {data:topFive} = useGetopFiveQuery()
+  const {data:persentage} = useGetDashboardPersentageQuery()
+
 
 const statsConfig = [
   {
@@ -12,7 +20,7 @@ const statsConfig = [
     bg: '#E7FFF3',
     icon: '/images/overview/img1.png',
     vector: '/images/overview/Vector 5.png',
-    description: '5% increase',
+    description: `${persentage?.users?.active?.percentage_increase ?? 0}% increase`,
   },
   {
     title: 'New User',
@@ -20,7 +28,7 @@ const statsConfig = [
     bg: '#D6FFD6',
     icon: '/images/overview/Group (1).png',
     vector: '/images/overview/Vector 9.png',
-    description: '5% Increased Monthly',
+    description: `${persentage?.users?.new?.percentage_increase ?? 0}% Increased Monthly`
   },
   {
     title: 'Events Created',
@@ -28,7 +36,7 @@ const statsConfig = [
     bg: '#FFF6DC',
     icon: '/images/overview/Group (2).png',
     vector: '/images/overview/Vector 12.png',
-    description: '10% Event creation Rate',
+    description: `${persentage?.events?.created?.percentage_increase ?? 0}% Event creation Rate`,
   },
   {
     title: 'Deactivated User',
@@ -36,13 +44,9 @@ const statsConfig = [
     bg: '#FFE5E5',
     icon: '/images/overview/Group (4).png',
     vector: '/images/overview/Vector 9.png',
-    description: '1% Increased Monthly',
+    description: `${persentage?.users?.deactivated?.percentage_increase ?? 0}% Increased Monthly`,
   },
 ];
-
-const Overview = () => {
-  const { data } = useGetDashboardStatsQuery();
-  const {data:topFive} = useGetopFiveQuery()
 
   return (
     <div className="w-full">

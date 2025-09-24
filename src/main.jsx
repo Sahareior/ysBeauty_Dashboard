@@ -59,11 +59,15 @@ const router = createBrowserRouter([
         path: "settings",
         element: <Settings />,
         children: [
-          { path: "profile", element: <Profile /> },
+          {
+            path: "profile",
+            element: <Profile />,
+          },
           {
             path: "change-password",
             element: <ChangePassLayout />,
             children: [
+              { index: true, element: <ChangePass /> },
               { path: "forgot-password", element: <ForgotPass /> },
               { path: "verify-email", element: <VerifyEmail /> },
               { path: "reset-password", element: <ResetPass /> },

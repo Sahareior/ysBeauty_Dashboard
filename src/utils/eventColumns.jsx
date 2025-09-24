@@ -2,7 +2,7 @@
 import { Button, Dropdown, Menu } from "antd";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 
-export const getEventColumns = (updateEvent) => [
+export const getEventColumns = (updateEvent,handelDeleteEvent) => [
   {
     title: "Event Name",
     dataIndex: "name",
@@ -13,11 +13,13 @@ export const getEventColumns = (updateEvent) => [
     title: "Time",
     dataIndex: "displayTime",
     key: "time",
+     render: (text) => <span className="popmed text-[18px]">{text}</span>,
   },
   {
     title: "Location",
     dataIndex: "displayLocation",
     key: "location",
+     render: (text) => <span className="popmed text-[18px]">{text}</span>,
   },
   {
     title: "Active",
@@ -49,7 +51,7 @@ export const getEventColumns = (updateEvent) => [
               {record.is_active ? "Deactivate" : "Activate"}
             </Menu.Item>
             <Menu.Divider />
-            <Menu.Item key="delete" danger>
+            <Menu.Item onClick={()=> handelDeleteEvent(record.id)} key="delete" danger>
               Delete
             </Menu.Item>
           </Menu>
